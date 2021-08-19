@@ -4,6 +4,7 @@ let workouts = [
   {
     length: 1.1,
     comment: "Hyvä treeni",
+    date: "19.08.2021",
     excercises: [
       {
         name: "Penkkipunnerrus",
@@ -22,6 +23,7 @@ let workouts = [
   {
     length: 0.8,
     comment: "Huono treeni",
+    date: "19.08.2021",
     excercises: [
       {
         name: "Jalkakyykky",
@@ -40,6 +42,7 @@ let workouts = [
   {
     length: 1.3,
     comment: "Aika meh",
+    date: "19.08.2021",
     excercises: [
       {
         name: "Penkkipunnerrus",
@@ -62,6 +65,7 @@ const typeDefs = gql`
   type Workout {
     length: Float!
     comment: String
+    date: String
     excercises: [Exercise!]
   }
 
@@ -75,6 +79,7 @@ const typeDefs = gql`
     reps: Int!
     weight: Int!
     sets: Int!
+    date: String
   }
 
   type Mutation {

@@ -5,6 +5,7 @@ export const ALL_WORKOUTS = gql`
     allWorkouts {
       length
       comment
+      date
       excercises {
         name
         reps

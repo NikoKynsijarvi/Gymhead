@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-      <HomePage />
+      <HomePage workouts={result.data.allWorkouts} />
     </>
   );
 }

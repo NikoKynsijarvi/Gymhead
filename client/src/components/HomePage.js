@@ -6,8 +6,13 @@ import {
   IconButton,
   ThemeProvider,
   createTheme,
+  Container,
+  Grid,
+  Paper,
+  makeStyles,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
+import LastWorkout from "./LastWorkout";
 
 const theme = createTheme({
   palette: {
@@ -26,10 +31,25 @@ const theme = createTheme({
   },
 });
 
-function HomePage() {
-  const [open, setOpen] = useState(false);
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    padding: theme.spacing(2),
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column",
+    height: 240,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  appBarSpacer: {
+    height: 20,
+  },
+}));
 
-  console.log(open);
+function HomePage({ workouts }) {
+  const [open, setOpen] = useState(false);
+  const classes = useStyles();
+  console.log(workouts);
   const handleDrawerClose = () => {
     setOpen(!open);
   };
@@ -49,6 +69,18 @@ function HomePage() {
             </IconButton>
           </Toolbar>
         </AppBar>
+        <main>
+          <div className={classes.appBarSpacer} />
+          <Container maxWidth="lg">
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={4} lg={4}>
+                <Paper className={classes.paper}>
+                  <LastWorkout workout={workouts[workouts.length - 1]} />
+                </Paper>
+              </Grid>
+            </Grid>
+          </Container>
+        </main>
       </ThemeProvider>
     </>
   );
