@@ -1,0 +1,119 @@
+const { ApolloServer, gql } = require("apollo-server");
+
+let workouts = [
+  {
+    length: 1.1,
+    comment: "Hyvä treeni",
+    excercises: [
+      {
+        name: "Penkkipunnerrus",
+        reps: 10,
+        weight: 80,
+        sets: 3,
+      },
+      {
+        name: "Maastaveto",
+        reps: 5,
+        weight: 140,
+        sets: 4,
+      },
+    ],
+  },
+  {
+    length: 0.8,
+    comment: "Huono treeni",
+    excercises: [
+      {
+        name: "Jalkakyykky",
+        reps: 7,
+        weight: 180,
+        sets: 2,
+      },
+      {
+        name: "Hauiskääntö",
+        reps: 15,
+        weight: 15,
+        sets: 1,
+      },
+    ],
+  },
+  {
+    length: 1.3,
+    comment: "Aika meh",
+    excercises: [
+      {
+        name: "Penkkipunnerrus",
+        reps: 10,
+        weight: 80,
+        sets: 6,
+      },
+    ],
+  },
+];
+
+const typeDefs = gql`
+  type Exercise {
+    name: String!
+    reps: Int!
+    weight: Int!
+    sets: Int!
+  }
+
+  type Workout {
+    length: Float!
+    comment: String
+    excercises: [Exercise!]
+  }
+
+  type Query {
+    workoutCount: Int!
+    allWorkouts(exercise: String): [Workout!]!
+  }
+
+  input ExerciseInput {
+    name: String!
+    reps: Int!
+    weight: Int!
+    sets: Int!
+  }
+
+  type Mutation {
+    addWorkout(
+      length: Float!
+      comment: String
+      excercises: [ExerciseInput!]
+    ): Workout
+  }
+`;
+
+const resolvers = {
+  Query: {
+    workoutCount: () => workouts.length,
+    allWorkouts: (root, args) => {
+      if (args.exercise) {
+        const filteredWorkouts = workouts.filter((w) =>
+          w.excercises.map((e) => e.name).includes(args.exercise)
+        );
+        return filteredWorkouts;
+      }
+
+      return workouts;
+    },
+  },
+  Mutation: {
+    addWorkout: (root, args) => {
+      const workout = { ...args };
+      workouts = workouts.concat(workouts);
+      return workout;
+    },
+  },
+};
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
+
+server.listen().then(({ url }) => {
+  console.log(`Server ready at ${url}`);
+});
