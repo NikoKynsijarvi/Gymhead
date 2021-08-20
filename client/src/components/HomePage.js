@@ -14,6 +14,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import LastWorkout from "./LastWorkout";
 import Chart from "./Chart";
+import NewWorkout from "./NewWorkout";
 
 const theme = createTheme({
   palette: {
@@ -75,6 +76,14 @@ function HomePage({ workouts }) {
               <Grid item xs={12} md={8} lg={8}>
                 <Paper className={classes.paper}>
                   <Chart workouts={workouts} />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={10} lg={10}>
+                <Paper className={classes.paper}></Paper>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2}>
+                <Paper className={classes.paper}>
+                  <NewWorkout />
                 </Paper>
               </Grid>
             </Grid>

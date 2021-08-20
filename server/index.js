@@ -112,6 +112,7 @@ const typeDefs = gql`
     addWorkout(
       length: Float!
       comment: String
+      date: String
       excercises: [ExerciseInput!]
     ): Workout
   }

@@ -22,6 +22,7 @@ function createDataArray(days, workouts, m) {
       if (Number.parseInt(date[0]) === i) {
         return w;
       }
+      return false;
     });
     if (a.length > 0) {
       data.push({ date: a[0].date, length: a[0].length });
@@ -38,21 +39,21 @@ function Chart({ workouts }) {
   var y = d.getFullYear();
 
   let dInMonth = daysInMonth(n, y);
-  console.log(dInMonth);
   const thisMonth = workouts.filter((m) => {
     const date = m.date.split(".");
     if (Number.parseInt(date[1]) === n + 1) {
       return m;
     }
+    return false;
   });
 
   const dataA = createDataArray(dInMonth, thisMonth, n);
-  console.log(dataA);
+
   const theme = useTheme();
   return (
     <>
       <Typography component="h2" variant="h6" color="secondary" gutterBottom>
-        Treenit päivässä tässä kuussa
+        Kuukauden treenimäärä
       </Typography>
       <ResponsiveContainer width="90%">
         <BarChart
