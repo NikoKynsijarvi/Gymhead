@@ -23,7 +23,7 @@ let workouts = [
   {
     length: 0.8,
     comment: "Huono treeni",
-    date: "19.08.2021",
+    date: "19.07.2021",
     excercises: [
       {
         name: "Jalkakyykky",
@@ -42,7 +42,33 @@ let workouts = [
   {
     length: 1.3,
     comment: "Aika meh",
-    date: "19.08.2021",
+    date: "20.08.2021",
+    excercises: [
+      {
+        name: "Penkkipunnerrus",
+        reps: 10,
+        weight: 80,
+        sets: 6,
+      },
+    ],
+  },
+  {
+    length: 1.5,
+    comment: "Aika meh",
+    date: "10.08.2021",
+    excercises: [
+      {
+        name: "Penkkipunnerrus",
+        reps: 10,
+        weight: 80,
+        sets: 6,
+      },
+    ],
+  },
+  {
+    length: 0.5,
+    comment: "Aika meh",
+    date: "11.08.2021",
     excercises: [
       {
         name: "Penkkipunnerrus",

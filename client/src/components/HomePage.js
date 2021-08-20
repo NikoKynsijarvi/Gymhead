@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   AppBar,
   CssBaseline,
@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import LastWorkout from "./LastWorkout";
+import Chart from "./Chart";
 
 const theme = createTheme({
   palette: {
@@ -47,28 +48,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function HomePage({ workouts }) {
-  const [open, setOpen] = useState(false);
   const classes = useStyles();
   console.log(workouts);
-  const handleDrawerClose = () => {
-    setOpen(!open);
-  };
+
   return (
     <>
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <AppBar position="relative">
           <Toolbar color="#00F291">
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={handleDrawerClose}
-            >
+            <IconButton edge="start" color="inherit" aria-label="menu">
               <MenuIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
+
         <main>
           <div className={classes.appBarSpacer} />
           <Container maxWidth="lg">
@@ -76,6 +70,11 @@ function HomePage({ workouts }) {
               <Grid item xs={12} md={4} lg={4}>
                 <Paper className={classes.paper}>
                   <LastWorkout workout={workouts[workouts.length - 1]} />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={8} lg={8}>
+                <Paper className={classes.paper}>
+                  <Chart workouts={workouts} />
                 </Paper>
               </Grid>
             </Grid>
