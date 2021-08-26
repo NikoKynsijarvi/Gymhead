@@ -30,9 +30,13 @@ const months = [
 
 function LastWorkout({ workout }) {
   const classes = useStyles();
+  if (!workout) {
+    return <h1>Ei vielä harjoituksia</h1>;
+  }
   const date = workout.date.split(".");
   const month = months.find((m) => m.id === Number.parseInt(date[1]) - 1);
   console.log(workout);
+
   return (
     <>
       <Typography component="h2" variant="h6" color="secondary" gutterBottom>

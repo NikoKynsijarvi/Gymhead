@@ -10,14 +10,18 @@ const useStyles = makeStyles({
   },
 });
 
-function NewWorkout() {
+function NewWorkout({ setOpen }) {
   const classes = useStyles();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
   return (
     <>
       <Typography component="h2" variant="h6" color="secondary" gutterBottom>
         Lisää uusi
       </Typography>
-      <IconButton>
+      <IconButton onClick={handleClickOpen}>
         <AddRoundedIcon color="primary" className={classes.icon} />
       </IconButton>
     </>

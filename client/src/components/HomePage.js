@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   CssBaseline,
@@ -15,6 +15,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import LastWorkout from "./LastWorkout";
 import Chart from "./Chart";
 import NewWorkout from "./NewWorkout";
+import Popup from "./Popup";
 
 const theme = createTheme({
   palette: {
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function HomePage({ workouts }) {
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
   console.log(workouts);
 
@@ -67,6 +69,7 @@ function HomePage({ workouts }) {
         <main>
           <div className={classes.appBarSpacer} />
           <Container maxWidth="lg">
+            <Popup open={open} setOpen={setOpen} />
             <Grid container spacing={3}>
               <Grid item xs={12} md={4} lg={4}>
                 <Paper className={classes.paper}>
@@ -83,7 +86,7 @@ function HomePage({ workouts }) {
               </Grid>
               <Grid item xs={12} md={2} lg={2}>
                 <Paper className={classes.paper}>
-                  <NewWorkout />
+                  <NewWorkout setOpen={setOpen} />
                 </Paper>
               </Grid>
             </Grid>
