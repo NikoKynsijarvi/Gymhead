@@ -3,17 +3,22 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Button,
   TextField,
   Container,
   Grid,
-  IconButton,
-  Typography,
-  Tooltip,
   MenuItem,
+  IconButton,
+  makeStyles,
 } from "@material-ui/core";
 import AddCircleOutlineRounded from "@material-ui/icons/AddCircleOutlineRounded";
+
+const useStyles = makeStyles((theme) => ({
+  addIcon: {
+    height: "45px",
+    width: "45px",
+  },
+}));
 
 const exerciseNames = [
   "Penkkipunnerrus",
@@ -23,7 +28,12 @@ const exerciseNames = [
   "Kulmasoutu",
 ];
 
-function ExerciseForm() {
+function ExerciseForm(props) {
+  const classes = useStyles();
+  const { setFormOpen } = props;
+  const handleClose = () => {
+    setFormOpen(false);
+  };
   return (
     <>
       <Grid item xs={6} md={6} lg={6}>
@@ -63,7 +73,7 @@ function ExerciseForm() {
           fullWidth
         />
       </Grid>
-      <Grid item xs={6} md={6} lg={6}>
+      <Grid item xs={6} md={4} lg={4}>
         <TextField
           autoFocus
           margin="dense"
@@ -73,13 +83,18 @@ function ExerciseForm() {
           fullWidth
         />
       </Grid>
+      <Grid item xs={12} md={2} lg={2}>
+        <IconButton color="secondary" onClick={handleClose}>
+          <AddCircleOutlineRounded className={classes.addIcon} />
+        </IconButton>
+      </Grid>
     </>
   );
 }
 
 function AddNewForm(props) {
   const [formOpen, setFormOpen] = useState(false);
-  const { setMins, setHours, setComment, setDate } = props;
+  const { setMins, setHours, setComment, setDate, date } = props;
 
   return (
     <Container maxWidth="lg">
@@ -106,7 +121,7 @@ function AddNewForm(props) {
             onChange={(e) => setMins(e.target.value)}
           />
         </Grid>
-        <Grid item xs={10} md={8} lg={8}>
+        <Grid item xs={12} md={12} lg={12}>
           <TextField
             autoFocus
             margin="dense"
@@ -117,35 +132,41 @@ function AddNewForm(props) {
             onChange={(e) => setComment(e.target.value)}
           />
         </Grid>
-        <Grid item xs={2} md={4} lg={4}>
+
+        <Grid item xs={12} md={4} lg={4}>
           <TextField
-            autoFocus
-            margin="dense"
             id="date"
-            type="text"
             label="Pvm"
-            fullWidth
+            type="date"
+            defaultValue={date}
+            InputLabelProps={{
+              shrink: true,
+            }}
             onChange={(e) => setDate(e.target.value)}
           />
         </Grid>
-        <Grid item xs={12} md={12} lg={12}>
-          <Tooltip title="Lisää liike">
-            <IconButton onClick={() => setFormOpen(true)}>
-              <AddCircleOutlineRounded color="secondary" />
-            </IconButton>
-          </Tooltip>
+        <Grid item xs={12} md={4} lg={4}>
+          <Button
+            onClick={() => setFormOpen(true)}
+            variant="contained"
+            color="primary"
+          >
+            Lisää liike
+          </Button>
         </Grid>
-        {formOpen ? <ExerciseForm /> : <div></div>}
+
+        {formOpen ? <ExerciseForm setFormOpen={setFormOpen} /> : <div></div>}
       </Grid>
     </Container>
   );
 }
 
 function Popup(props) {
+  const d = new Date();
   const [mins, setMins] = useState(null);
   const [hours, setHours] = useState(null);
   const [comment, setComment] = useState(null);
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(d.toISOString().split("T")[0]);
   const [workouts, setWorkout] = useState([
     {
       length: 1.3,
@@ -176,20 +197,13 @@ function Popup(props) {
     setComment("");
     setDate("");
   };
-
-  console.log(workouts);
-
+  console.log(date);
   return (
     <Dialog
       open={open}
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id="form-dialog-title">
-        <Typography component="h2" variant="h6" color="secondary" gutterBottom>
-          Lisää uusi
-        </Typography>
-      </DialogTitle>
       <DialogContent>
         <AddNewForm
           workouts={workouts}
@@ -198,6 +212,7 @@ function Popup(props) {
           setMins={setMins}
           setComment={setComment}
           setDate={setDate}
+          date={date}
         />
       </DialogContent>
       <DialogActions>
@@ -205,7 +220,7 @@ function Popup(props) {
           Peru
         </Button>
         <Button onClick={handleClose} color="primary">
-          Lisää
+          Valmis
         </Button>
       </DialogActions>
     </Dialog>
