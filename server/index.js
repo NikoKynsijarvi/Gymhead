@@ -110,10 +110,10 @@ const typeDefs = gql`
 
   type Mutation {
     addWorkout(
-      length: Float!
+      length: Float
       comment: String
       date: String
-      excercises: [ExerciseInput!]
+      excercises: [ExerciseInput]
     ): Workout
   }
 `;
@@ -135,7 +135,7 @@ const resolvers = {
   Mutation: {
     addWorkout: (root, args) => {
       const workout = { ...args };
-      workouts = workouts.concat(workouts);
+      workouts = workouts.concat(workout);
       return workout;
     },
   },

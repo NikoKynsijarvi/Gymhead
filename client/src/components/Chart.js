@@ -15,6 +15,7 @@ function daysInMonth(month, year) {
 }
 
 function createDataArray(days, workouts, m) {
+  console.log(workouts);
   const data = [];
   for (let i = 1; i <= days; i++) {
     const a = workouts.filter((w) => {

@@ -7,95 +7,23 @@ import {
   TextField,
   Container,
   Grid,
-  MenuItem,
-  IconButton,
-  makeStyles,
 } from "@material-ui/core";
-import AddCircleOutlineRounded from "@material-ui/icons/AddCircleOutlineRounded";
-
-const useStyles = makeStyles((theme) => ({
-  addIcon: {
-    height: "45px",
-    width: "45px",
-  },
-}));
-
-const exerciseNames = [
-  "Penkkipunnerrus",
-  "Jalkakyykky",
-  "Maastaveto",
-  "Hauiskääntö",
-  "Kulmasoutu",
-];
-
-function ExerciseForm(props) {
-  const classes = useStyles();
-  const { setFormOpen } = props;
-  const handleClose = () => {
-    setFormOpen(false);
-  };
-  return (
-    <>
-      <Grid item xs={6} md={6} lg={6}>
-        <TextField
-          autoFocus
-          select
-          margin="dense"
-          id="eName"
-          label="Liike"
-          fullWidth
-          defaultValue=""
-        >
-          {exerciseNames.map((e) => (
-            <MenuItem key={e} value={e}>
-              {e}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Grid>
-      <Grid item xs={6} md={6} lg={6}>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="eSets"
-          label="Sarjat"
-          type="number"
-          fullWidth
-        />
-      </Grid>
-      <Grid item xs={6} md={6} lg={6}>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="eSets"
-          label="Toistot"
-          type="number"
-          fullWidth
-        />
-      </Grid>
-      <Grid item xs={6} md={4} lg={4}>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="eWeight"
-          label="Paino kg"
-          type="number"
-          fullWidth
-        />
-      </Grid>
-      <Grid item xs={12} md={2} lg={2}>
-        <IconButton color="secondary" onClick={handleClose}>
-          <AddCircleOutlineRounded className={classes.addIcon} />
-        </IconButton>
-      </Grid>
-    </>
-  );
-}
+import ExerciseForm from "./ExerciseForm";
+import { useMutation } from "@apollo/client";
+import { ADD_WORKOUT } from "./queries";
 
 function AddNewForm(props) {
   const [formOpen, setFormOpen] = useState(false);
-  const { setMins, setHours, setComment, setDate, date } = props;
-
+  const {
+    setMins,
+    setHours,
+    setComment,
+    setDate,
+    date,
+    excercises,
+    setExercises,
+  } = props;
+  console.log(excercises);
   return (
     <Container maxWidth="lg">
       <Grid container spacing={1}>
@@ -155,49 +83,50 @@ function AddNewForm(props) {
           </Button>
         </Grid>
 
-        {formOpen ? <ExerciseForm setFormOpen={setFormOpen} /> : <div></div>}
+        {formOpen ? (
+          <ExerciseForm
+            setFormOpen={setFormOpen}
+            excercises={excercises}
+            setExercises={setExercises}
+          />
+        ) : (
+          <div></div>
+        )}
       </Grid>
     </Container>
   );
 }
 
+function toRightDate(date) {
+  const a = date.split("-");
+  return `${a[2]}.${a[1]}.${a[0]}`;
+}
+
 function Popup(props) {
   const d = new Date();
-  const [mins, setMins] = useState(null);
-  const [hours, setHours] = useState(null);
-  const [comment, setComment] = useState(null);
-  const [date, setDate] = useState(d.toISOString().split("T")[0]);
-  const [workouts, setWorkout] = useState([
-    {
-      length: 1.3,
-      comment: "Aika meh",
-      date: "20.08.2021",
-      excercises: [
-        {
-          name: "Penkkipunnerrus",
-          reps: 10,
-          weight: 80,
-          sets: 6,
-        },
-      ],
-    },
-  ]);
+  const [mins, setMins] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [comment, setComment] = useState("");
+  const [dateFirst, setDateFirst] = useState(d.toISOString().split("T")[0]);
+  const [excercises, setExercises] = useState([]);
+
+  const [createWorkot] = useMutation(ADD_WORKOUT);
   const { open, setOpen } = props;
   const handleClose = () => {
     setOpen(false);
-    const newWorkout = {
-      length: `${hours}.${mins}`,
-      comment: comment,
-      date: date,
-    };
 
-    setWorkout(workouts.concat(newWorkout));
+    const length = parseFloat(`${hours}.${mins}`);
+    const date = toRightDate(dateFirst);
+
+    createWorkot({ variables: { length, date, comment, excercises } });
+
     setMins("");
     setHours("");
     setComment("");
-    setDate("");
+    setDateFirst("");
+    setExercises([]);
   };
-  console.log(date);
+
   return (
     <Dialog
       open={open}
@@ -206,13 +135,13 @@ function Popup(props) {
     >
       <DialogContent>
         <AddNewForm
-          workouts={workouts}
-          setWorkout={setWorkout}
           setHours={setHours}
           setMins={setMins}
           setComment={setComment}
-          setDate={setDate}
-          date={date}
+          setDate={setDateFirst}
+          date={dateFirst}
+          excercises={excercises}
+          setExercises={setExercises}
         />
       </DialogContent>
       <DialogActions>
