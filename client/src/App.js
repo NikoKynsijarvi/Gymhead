@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import HomePage from "./components/HomePage";
-import { ALL_WORKOUTS } from "./components/queries";
+import { ALL_WORKOUTS } from "./components/graphql/queries";
 
 function App() {
   const result = useQuery(ALL_WORKOUTS);

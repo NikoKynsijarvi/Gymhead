@@ -15,13 +15,3 @@ export const ALL_WORKOUTS = gql`
     }
   }
 `;
-
-export const ADD_WORKOUT = gql`
-  mutation createWorkout($length: Float, $date: String, $comment: String) {
-    addWorkout(length: $length, date: $date, comment: $comment) {
-      length
-      date
-      comment
-    }
-  }
-`;

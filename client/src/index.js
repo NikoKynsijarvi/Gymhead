@@ -7,13 +7,24 @@ import {
   ApolloProvider,
   HttpLink,
   InMemoryCache,
+  gql,
 } from "@apollo/client";
+
+const typeDefs = gql`
+  input Exercise {
+    name: String
+    reps: Int
+    weight: Int
+    sets: Int
+  }
+`;
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
     uri: "http://localhost:4000",
   }),
+  typeDefs,
 });
 
 ReactDOM.render(

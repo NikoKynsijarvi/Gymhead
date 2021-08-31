@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import ExerciseForm from "./ExerciseForm";
 import { useMutation } from "@apollo/client";
-import { ADD_WORKOUT } from "./queries";
+import { ADD_WORKOUT } from "./graphql/mutations";
 
 function AddNewForm(props) {
   const [formOpen, setFormOpen] = useState(false);

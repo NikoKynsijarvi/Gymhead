@@ -82,17 +82,17 @@ let workouts = [
 
 const typeDefs = gql`
   type Exercise {
-    name: String!
-    reps: Int!
-    weight: Int!
-    sets: Int!
+    name: String
+    reps: Int
+    weight: Int
+    sets: Int
   }
 
   type Workout {
     length: Float!
     comment: String
     date: String
-    excercises: [Exercise!]
+    excercises: [Exercise]
   }
 
   type Query {
@@ -101,11 +101,10 @@ const typeDefs = gql`
   }
 
   input ExerciseInput {
-    name: String!
-    reps: Int!
-    weight: Int!
-    sets: Int!
-    date: String
+    name: String
+    reps: Int
+    weight: Int
+    sets: Int
   }
 
   type Mutation {

@@ -35,9 +35,9 @@ function ExerciseForm(props) {
     setFormOpen(false);
     const newExercise = {
       name: name,
-      sets: sets,
-      reps: reps,
-      weight: weight,
+      sets: parseInt(sets),
+      reps: parseInt(reps),
+      weight: parseInt(weight),
     };
 
     setExercises(excercises.concat(newExercise));
