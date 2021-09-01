@@ -11,6 +11,7 @@ import {
 import ExerciseForm from "./ExerciseForm";
 import { useMutation } from "@apollo/client";
 import { ADD_WORKOUT } from "./graphql/mutations";
+import { ALL_WORKOUTS } from "./graphql/queries";
 
 function AddNewForm(props) {
   const [formOpen, setFormOpen] = useState(false);
@@ -110,7 +111,9 @@ function Popup(props) {
   const [dateFirst, setDateFirst] = useState(d.toISOString().split("T")[0]);
   const [excercises, setExercises] = useState([]);
 
-  const [createWorkot] = useMutation(ADD_WORKOUT);
+  const [createWorkot] = useMutation(ADD_WORKOUT, {
+    refetchQueries: [{ query: ALL_WORKOUTS }],
+  });
   const { open, setOpen } = props;
   const handleClose = () => {
     setOpen(false);
