@@ -15,6 +15,10 @@ import { ALL_WORKOUTS } from "./graphql/queries";
 
 function AddNewForm(props) {
   const [formOpen, setFormOpen] = useState(false);
+  const [commentError, setCommentError] = useState({ value: false, text: "" });
+  const [hourError, setHourError] = useState({ value: false, text: "" });
+  const [minError, setMinError] = useState({ value: false, text: "" });
+
   const {
     setMins,
     setHours,
@@ -24,6 +28,46 @@ function AddNewForm(props) {
     excercises,
     setExercises,
   } = props;
+
+  const handleHours = (e) => {
+    if (
+      e.target.value.match(/^[0-9]+$/) === null &&
+      e.target.value.length > 0
+    ) {
+      setHourError({ value: true, text: "Ei voi sisältää kirjaimia" });
+      return;
+    }
+    setHours(e.target.value);
+    setHourError({ value: false, text: "" });
+  };
+
+  const handleMins = (e) => {
+    if (
+      e.target.value.match(/^[0-9]+$/) === null &&
+      e.target.value.length > 0
+    ) {
+      setMinError({ value: true, text: "Ei voi sisältää kirjaimia" });
+      return;
+    }
+    setMins(e.target.value);
+    setMinError({ value: false, text: "" });
+  };
+
+  const handleCommentChange = (e) => {
+    if (e.target.value.length > 149) {
+      console.log("yli 5");
+      setCommentError({
+        value: true,
+        text: "Kommentin oltava alle 150 merkkiä",
+      });
+
+      return;
+    } else {
+      setCommentError({ value: false, text: "" });
+    }
+
+    setComment(e.target.value);
+  };
   console.log(excercises);
   return (
     <Container maxWidth="lg">
@@ -31,34 +75,46 @@ function AddNewForm(props) {
         <Grid item xs={12} md={6} lg={6}>
           <TextField
             autoFocus
+            error={hourError.value}
+            helperText={hourError.text}
             margin="dense"
+            color="secondary"
             id="lengthH"
             label="Treenin pituus h"
             type="text"
             fullWidth
-            onChange={(e) => setHours(e.target.value)}
+            inputProps={{ maxLength: 2 }}
+            onChange={(e) => handleHours(e)}
           />
         </Grid>
         <Grid item xs={12} md={6} lg={6}>
           <TextField
             autoFocus
+            error={minError.value}
+            helperText={minError.text}
             margin="dense"
+            color="secondary"
             id="lengthMin"
             label="Treenin pituus min"
             type="text"
             fullWidth
-            onChange={(e) => setMins(e.target.value)}
+            inputProps={{ maxLength: 2 }}
+            onChange={(e) => handleMins(e)}
           />
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
           <TextField
+            error={commentError.value}
+            helperText={commentError.text}
+            color="secondary"
             autoFocus
             margin="dense"
             id="comment"
             label="Kommentti"
             type="text"
             fullWidth
-            onChange={(e) => setComment(e.target.value)}
+            inputProps={{ maxLength: 150 }}
+            onChange={(e) => handleCommentChange(e)}
           />
         </Grid>
 
@@ -115,10 +171,10 @@ function Popup(props) {
     refetchQueries: [{ query: ALL_WORKOUTS }],
   });
   const { open, setOpen } = props;
-  const handleClose = () => {
+  const handleSave = () => {
     setOpen(false);
 
-    const length = parseFloat(`${hours}.${mins}`);
+    const length = parseFloat(`${hours}.${(mins / 60) * 100}`);
     const date = toRightDate(dateFirst);
 
     createWorkot({ variables: { length, date, comment, excercises } });
@@ -126,10 +182,15 @@ function Popup(props) {
     setMins("");
     setHours("");
     setComment("");
-    setDateFirst("");
+    setDateFirst(d.toISOString().split("T")[0]);
     setExercises([]);
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  console.log(comment);
   return (
     <Dialog
       open={open}
@@ -151,7 +212,7 @@ function Popup(props) {
         <Button onClick={handleClose} color="primary">
           Peru
         </Button>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={handleSave} color="primary">
           Valmis
         </Button>
       </DialogActions>

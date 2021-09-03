@@ -21,6 +21,7 @@ const exerciseNames = [
   "Maastaveto",
   "Hauiskääntö",
   "Kulmasoutu",
+  "Pystypunnerrus",
 ];
 
 function ExerciseForm(props) {
