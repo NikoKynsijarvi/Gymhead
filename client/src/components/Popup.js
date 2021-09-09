@@ -173,14 +173,13 @@ function Popup(props) {
   const { open, setOpen } = props;
   const handleSave = () => {
     setOpen(false);
-
     const length = parseFloat(`${hours}.${(mins / 60) * 100}`);
     const date = toRightDate(dateFirst);
 
     createWorkot({ variables: { length, date, comment, excercises } });
 
-    setMins("");
-    setHours("");
+    setMins(0);
+    setHours(0);
     setComment("");
     setDateFirst(d.toISOString().split("T")[0]);
     setExercises([]);

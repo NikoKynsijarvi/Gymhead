@@ -5,6 +5,7 @@ import {
   makeStyles,
   TextField,
   Grid,
+  Tooltip,
 } from "@material-ui/core";
 import AddCircleOutlineRounded from "@material-ui/icons/AddCircleOutlineRounded";
 
@@ -97,9 +98,11 @@ function ExerciseForm(props) {
         />
       </Grid>
       <Grid item xs={12} md={2} lg={2}>
-        <IconButton color="secondary" onClick={handleClose}>
-          <AddCircleOutlineRounded className={classes.addIcon} />
-        </IconButton>
+        <Tooltip title="Valmis">
+          <IconButton color="secondary" onClick={handleClose}>
+            <AddCircleOutlineRounded className={classes.addIcon} />
+          </IconButton>
+        </Tooltip>
       </Grid>
     </>
   );

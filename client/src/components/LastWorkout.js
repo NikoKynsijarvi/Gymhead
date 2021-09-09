@@ -35,7 +35,11 @@ function LastWorkout({ workout }) {
   }
   const date = workout.date.split(".");
   const month = months.find((m) => m.id === Number.parseInt(date[1]) - 1);
-  console.log(workout);
+  const workoutLength = `${workout.length}`.split(".");
+  if (workoutLength.length === 1) {
+    workoutLength.push(0);
+  }
+  console.log(workoutLength);
 
   return (
     <>
@@ -43,7 +47,8 @@ function LastWorkout({ workout }) {
         Viimeisin treeni
       </Typography>
       <Typography component="p" variant="h4">
-        {workout.length} h
+        {workoutLength[0]} h{" "}
+        {Math.round((parseFloat(workoutLength[1]) * 60) / 100)} min
       </Typography>
       <Typography color="textSecondary" className={classes.workoutContext}>
         {date[0]} {month.name} {date[2]}
