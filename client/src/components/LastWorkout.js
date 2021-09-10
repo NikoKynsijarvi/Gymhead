@@ -39,7 +39,6 @@ function LastWorkout({ workout }) {
   if (workoutLength.length === 1) {
     workoutLength.push(0);
   }
-  console.log(workoutLength);
 
   return (
     <>

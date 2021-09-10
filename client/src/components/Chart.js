@@ -15,7 +15,6 @@ function daysInMonth(month, year) {
 }
 
 function createDataArray(days, workouts, m) {
-  console.log(workouts);
   const data = [];
   for (let i = 1; i <= days; i++) {
     const a = workouts.filter((w) => {
@@ -26,7 +25,10 @@ function createDataArray(days, workouts, m) {
       return false;
     });
     if (a.length > 0) {
-      data.push({ date: a[0].date, length: a[0].length });
+      const length = a.reduce(function (sum, b) {
+        return sum + b.length;
+      }, 0);
+      data.push({ date: a[0].date, length: length });
     } else {
       data.push({ date: `${i}.${m + 1}`, length: undefined });
     }
