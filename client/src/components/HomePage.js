@@ -52,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
 function HomePage({ workouts }) {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
-  console.log(workouts);
 
   return (
     <>

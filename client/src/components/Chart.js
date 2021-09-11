@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useTheme } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 import {
@@ -41,7 +41,7 @@ function Chart({ workouts }) {
   var n = d.getMonth();
   var y = d.getFullYear();
 
-  let dInMonth = daysInMonth(n, y);
+  let dInMonth = useMemo(() => daysInMonth(n, y), [n, y]);
   const thisMonth = workouts.filter((m) => {
     const date = m.date.split(".");
     if (Number.parseInt(date[1]) === n + 1) {
@@ -51,7 +51,6 @@ function Chart({ workouts }) {
   });
 
   const dataA = createDataArray(dInMonth, thisMonth, n);
-
   const theme = useTheme();
   return (
     <>

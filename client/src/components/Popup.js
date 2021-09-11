@@ -68,13 +68,13 @@ function AddNewForm(props) {
 
     setComment(e.target.value);
   };
-  console.log(excercises);
   return (
     <Container maxWidth="lg">
       <Grid container spacing={1}>
         <Grid item xs={12} md={6} lg={6}>
           <TextField
             autoFocus
+            inputProps={{ maxLength: 2 }}
             error={hourError.value}
             helperText={hourError.text}
             margin="dense"
@@ -83,13 +83,13 @@ function AddNewForm(props) {
             label="Treenin pituus h"
             type="text"
             fullWidth
-            inputProps={{ maxLength: 2 }}
             onChange={(e) => handleHours(e)}
           />
         </Grid>
         <Grid item xs={12} md={6} lg={6}>
           <TextField
             autoFocus
+            inputProps={{ maxLength: 2 }}
             error={minError.value}
             helperText={minError.text}
             margin="dense"
@@ -98,7 +98,6 @@ function AddNewForm(props) {
             label="Treenin pituus min"
             type="text"
             fullWidth
-            inputProps={{ maxLength: 2 }}
             onChange={(e) => handleMins(e)}
           />
         </Grid>
@@ -189,7 +188,6 @@ function Popup(props) {
     setOpen(false);
   };
 
-  console.log(comment);
   return (
     <Dialog
       open={open}

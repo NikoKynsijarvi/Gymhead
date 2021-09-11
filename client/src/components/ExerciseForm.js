@@ -71,6 +71,7 @@ function ExerciseForm(props) {
           id="eSets"
           label="Sarjat"
           type="number"
+          InputProps={{ inputProps: { min: 1, max: 100 } }}
           fullWidth
           onChange={(e) => setSets(e.target.value)}
         />
@@ -82,6 +83,7 @@ function ExerciseForm(props) {
           id="eRets"
           label="Toistot"
           type="number"
+          InputProps={{ inputProps: { min: 1, max: 100 } }}
           fullWidth
           onChange={(e) => setReps(e.target.value)}
         />
@@ -93,6 +95,7 @@ function ExerciseForm(props) {
           id="eWeight"
           label="Paino kg"
           type="number"
+          InputProps={{ inputProps: { min: 1, max: 100 } }}
           fullWidth
           onChange={(e) => setWeight(e.target.value)}
         />
