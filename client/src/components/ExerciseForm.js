@@ -11,8 +11,8 @@ import AddCircleOutlineRounded from "@material-ui/icons/AddCircleOutlineRounded"
 
 const useStyles = makeStyles((theme) => ({
   addIcon: {
-    height: "45px",
-    width: "45px",
+    height: "30px",
+    width: "30px",
   },
 }));
 
@@ -102,7 +102,7 @@ function ExerciseForm(props) {
         />
       </Grid>
       <Grid item xs={12} md={2} lg={2}>
-        <Tooltip title="Valmis">
+        <Tooltip title="Valmis" placement="right">
           <IconButton color="secondary" onClick={handleClose}>
             <AddCircleOutlineRounded className={classes.addIcon} />
           </IconButton>

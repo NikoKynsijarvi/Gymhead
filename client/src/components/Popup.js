@@ -8,7 +8,10 @@ import {
   Typography,
   Paper,
   makeStyles,
+  IconButton,
+  Tooltip,
 } from "@material-ui/core";
+import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 
 import AddNewForm from "./AddNewForm";
 import { useMutation } from "@apollo/client";
@@ -18,12 +21,16 @@ import { ALL_WORKOUTS } from "./graphql/queries";
 const useStyles = makeStyles((theme) => ({
   paper: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     height: 50,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
     marginBottom: theme.spacing(1),
+  },
+  iconbutton: {
+    position: "absolute",
+    right: 10,
   },
 }));
 
@@ -63,6 +70,11 @@ function Popup(props) {
     setExercises([]);
   };
 
+  const handleDelete = (id) => {
+    const handledExercises = excercises.filter((e) => e.id !== id);
+    setExercises(handledExercises);
+  };
+
   return (
     <Dialog
       open={open}
@@ -86,6 +98,14 @@ function Popup(props) {
           <Grid item lg={12} xs={12} key={e.id}>
             <Paper className={classes.paper}>
               <Typography>{e.name}</Typography>
+              <Tooltip title="Poista" placement="left">
+                <IconButton
+                  className={classes.iconbutton}
+                  onClick={() => handleDelete(e.id)}
+                >
+                  <DeleteRoundedIcon />
+                </IconButton>
+              </Tooltip>
             </Paper>
           </Grid>
         ))}
