@@ -11,12 +11,14 @@ let workouts = [
         reps: 10,
         weight: 80,
         sets: 3,
+        id: 0,
       },
       {
         name: "Maastaveto",
         reps: 5,
         weight: 140,
         sets: 4,
+        id: 1,
       },
     ],
   },
@@ -30,12 +32,14 @@ let workouts = [
         reps: 7,
         weight: 180,
         sets: 2,
+        id: 0,
       },
       {
         name: "Hauiskääntö",
         reps: 15,
         weight: 15,
         sets: 1,
+        id: 1,
       },
     ],
   },
@@ -49,6 +53,7 @@ let workouts = [
         reps: 10,
         weight: 80,
         sets: 6,
+        id: 0,
       },
     ],
   },
@@ -62,6 +67,7 @@ let workouts = [
         reps: 10,
         weight: 80,
         sets: 6,
+        id: 0,
       },
     ],
   },
@@ -75,6 +81,7 @@ let workouts = [
         reps: 10,
         weight: 80,
         sets: 6,
+        id: 0,
       },
     ],
   },
@@ -86,6 +93,7 @@ const typeDefs = gql`
     reps: Int
     weight: Int
     sets: Int
+    id: Int
   }
 
   type Workout {
@@ -105,6 +113,7 @@ const typeDefs = gql`
     reps: Int
     weight: Int
     sets: Int
+    id: Int
   }
 
   type Mutation {

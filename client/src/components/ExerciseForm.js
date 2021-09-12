@@ -40,6 +40,7 @@ function ExerciseForm(props) {
       sets: parseInt(sets),
       reps: parseInt(reps),
       weight: parseInt(weight),
+      id: excercises.length,
     };
 
     setExercises(excercises.concat(newExercise));

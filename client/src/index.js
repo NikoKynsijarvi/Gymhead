@@ -16,6 +16,7 @@ const typeDefs = gql`
     reps: Int
     weight: Int
     sets: Int
+    id: Int
   }
 `;
 

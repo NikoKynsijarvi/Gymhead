@@ -4,154 +4,28 @@ import {
   DialogActions,
   DialogContent,
   Button,
-  TextField,
-  Container,
   Grid,
+  Typography,
+  Paper,
+  makeStyles,
 } from "@material-ui/core";
-import ExerciseForm from "./ExerciseForm";
+
+import AddNewForm from "./AddNewForm";
 import { useMutation } from "@apollo/client";
 import { ADD_WORKOUT } from "./graphql/mutations";
 import { ALL_WORKOUTS } from "./graphql/queries";
 
-function AddNewForm(props) {
-  const [formOpen, setFormOpen] = useState(false);
-  const [commentError, setCommentError] = useState({ value: false, text: "" });
-  const [hourError, setHourError] = useState({ value: false, text: "" });
-  const [minError, setMinError] = useState({ value: false, text: "" });
-
-  const {
-    setMins,
-    setHours,
-    setComment,
-    setDate,
-    date,
-    excercises,
-    setExercises,
-  } = props;
-
-  const handleHours = (e) => {
-    if (
-      e.target.value.match(/^[0-9]+$/) === null &&
-      e.target.value.length > 0
-    ) {
-      setHourError({ value: true, text: "Ei voi sisältää kirjaimia" });
-      return;
-    }
-    setHours(e.target.value);
-    setHourError({ value: false, text: "" });
-  };
-
-  const handleMins = (e) => {
-    if (
-      e.target.value.match(/^[0-9]+$/) === null &&
-      e.target.value.length > 0
-    ) {
-      setMinError({ value: true, text: "Ei voi sisältää kirjaimia" });
-      return;
-    }
-    setMins(e.target.value);
-    setMinError({ value: false, text: "" });
-  };
-
-  const handleCommentChange = (e) => {
-    if (e.target.value.length > 149) {
-      console.log("yli 5");
-      setCommentError({
-        value: true,
-        text: "Kommentin oltava alle 150 merkkiä",
-      });
-
-      return;
-    } else {
-      setCommentError({ value: false, text: "" });
-    }
-
-    setComment(e.target.value);
-  };
-  return (
-    <Container maxWidth="lg">
-      <Grid container spacing={1}>
-        <Grid item xs={12} md={6} lg={6}>
-          <TextField
-            autoFocus
-            inputProps={{ maxLength: 2 }}
-            error={hourError.value}
-            helperText={hourError.text}
-            margin="dense"
-            color="secondary"
-            id="lengthH"
-            label="Treenin pituus h"
-            type="text"
-            fullWidth
-            onChange={(e) => handleHours(e)}
-          />
-        </Grid>
-        <Grid item xs={12} md={6} lg={6}>
-          <TextField
-            autoFocus
-            inputProps={{ maxLength: 2 }}
-            error={minError.value}
-            helperText={minError.text}
-            margin="dense"
-            color="secondary"
-            id="lengthMin"
-            label="Treenin pituus min"
-            type="text"
-            fullWidth
-            onChange={(e) => handleMins(e)}
-          />
-        </Grid>
-        <Grid item xs={12} md={12} lg={12}>
-          <TextField
-            error={commentError.value}
-            helperText={commentError.text}
-            color="secondary"
-            autoFocus
-            margin="dense"
-            id="comment"
-            label="Kommentti"
-            type="text"
-            fullWidth
-            inputProps={{ maxLength: 150 }}
-            onChange={(e) => handleCommentChange(e)}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={4} lg={4}>
-          <TextField
-            id="date"
-            label="Pvm"
-            type="date"
-            defaultValue={date}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={(e) => setDate(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12} md={4} lg={4}>
-          <Button
-            onClick={() => setFormOpen(true)}
-            variant="contained"
-            color="primary"
-          >
-            Lisää liike
-          </Button>
-        </Grid>
-
-        {formOpen ? (
-          <ExerciseForm
-            setFormOpen={setFormOpen}
-            excercises={excercises}
-            setExercises={setExercises}
-          />
-        ) : (
-          <div></div>
-        )}
-      </Grid>
-    </Container>
-  );
-}
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    display: "flex",
+    flexDirection: "column",
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    marginBottom: theme.spacing(1),
+  },
+}));
 
 function toRightDate(date) {
   const a = date.split("-");
@@ -165,7 +39,7 @@ function Popup(props) {
   const [comment, setComment] = useState("");
   const [dateFirst, setDateFirst] = useState(d.toISOString().split("T")[0]);
   const [excercises, setExercises] = useState([]);
-
+  const classes = useStyles();
   const [createWorkot] = useMutation(ADD_WORKOUT, {
     refetchQueries: [{ query: ALL_WORKOUTS }],
   });
@@ -186,6 +60,7 @@ function Popup(props) {
 
   const handleClose = () => {
     setOpen(false);
+    setExercises([]);
   };
 
   return (
@@ -205,6 +80,16 @@ function Popup(props) {
           setExercises={setExercises}
         />
       </DialogContent>
+
+      <Grid container>
+        {excercises.map((e) => (
+          <Grid item lg={12} xs={12} key={e.id}>
+            <Paper className={classes.paper}>
+              <Typography>{e.name}</Typography>
+            </Paper>
+          </Grid>
+        ))}
+      </Grid>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
           Peru
