@@ -5,14 +5,9 @@ import {
   DialogContent,
   Button,
   Grid,
-  Typography,
-  Paper,
   makeStyles,
-  IconButton,
-  Tooltip,
+  Chip,
 } from "@material-ui/core";
-import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
-
 import AddNewForm from "./AddNewForm";
 import { useMutation } from "@apollo/client";
 import { ADD_WORKOUT } from "./graphql/mutations";
@@ -31,6 +26,15 @@ const useStyles = makeStyles((theme) => ({
   iconbutton: {
     position: "absolute",
     right: 10,
+  },
+  chip: {
+    margin: theme.spacing(2),
+  },
+  grid: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
 }));
 
@@ -93,30 +97,28 @@ function Popup(props) {
         />
       </DialogContent>
 
-      <Grid container>
+      <Grid container className={classes.grid}>
         {excercises.map((e) => (
-          <Grid item lg={12} xs={12} key={e.id}>
-            <Paper className={classes.paper}>
-              <Typography>{e.name}</Typography>
-              <Tooltip title="Poista" placement="left">
-                <IconButton
-                  className={classes.iconbutton}
-                  onClick={() => handleDelete(e.id)}
-                >
-                  <DeleteRoundedIcon />
-                </IconButton>
-              </Tooltip>
-            </Paper>
-          </Grid>
+          <Chip
+            key={e.id}
+            className={classes.chip}
+            label={e.name}
+            onDelete={() => handleDelete(e.id)}
+            color="primary"
+          />
         ))}
       </Grid>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
           Peru
         </Button>
-        <Button onClick={handleSave} color="primary">
-          Valmis
-        </Button>
+        {hours + mins <= 0 ? (
+          <Button disabled>Valmis </Button>
+        ) : (
+          <Button onClick={handleSave} color="primary">
+            Valmis
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );
