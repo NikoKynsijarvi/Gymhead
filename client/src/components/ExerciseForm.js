@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import {
   MenuItem,
-  IconButton,
   makeStyles,
   TextField,
   Grid,
-  Tooltip,
+  Button,
 } from "@material-ui/core";
 import AddCircleOutlineRounded from "@material-ui/icons/AddCircleOutlineRounded";
 
 const useStyles = makeStyles((theme) => ({
-  addIcon: {
-    height: "30px",
-    width: "30px",
+  addButton: {
+    marginTop: theme.spacing(2),
   },
 }));
 
@@ -102,11 +100,15 @@ function ExerciseForm(props) {
         />
       </Grid>
       <Grid item xs={12} md={2} lg={2}>
-        <Tooltip title="Valmis" placement="right">
-          <IconButton color="secondary" onClick={handleClose}>
-            <AddCircleOutlineRounded className={classes.addIcon} />
-          </IconButton>
-        </Tooltip>
+        <Button
+          className={classes.addButton}
+          variant="contained"
+          color="primary"
+          endIcon={<AddCircleOutlineRounded />}
+          onClick={handleClose}
+        >
+          Lisää
+        </Button>
       </Grid>
     </>
   );
