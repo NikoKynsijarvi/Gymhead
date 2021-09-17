@@ -10,6 +10,12 @@ import {
   Grid,
   Paper,
   makeStyles,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Box,
+  ClickAwayListener,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import LastWorkout from "./LastWorkout";
@@ -51,7 +57,20 @@ const useStyles = makeStyles((theme) => ({
 
 function HomePage({ workouts }) {
   const [open, setOpen] = useState(false);
+  const [drawer, setDrawer] = useState(false);
   const classes = useStyles();
+
+  const list = () => (
+    <Box role="presentation">
+      <List>
+        {["Kalenteri", "Harjoitukset", "Tilastot"].map((text) => (
+          <ListItem button key={text}>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 
   return (
     <>
@@ -59,7 +78,12 @@ function HomePage({ workouts }) {
       <ThemeProvider theme={theme}>
         <AppBar position="relative">
           <Toolbar color="#00F291">
-            <IconButton edge="start" color="inherit" aria-label="menu">
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={() => setDrawer(!drawer)}
+            >
               <MenuIcon />
             </IconButton>
           </Toolbar>
@@ -67,6 +91,11 @@ function HomePage({ workouts }) {
 
         <main>
           <div className={classes.appBarSpacer} />
+          <Drawer open={drawer} anchor="top">
+            <ClickAwayListener onClickAway={() => setDrawer(false)}>
+              {list()}
+            </ClickAwayListener>
+          </Drawer>
           <Container maxWidth="lg">
             <Popup open={open} setOpen={setOpen} />
             <Grid container spacing={3}>
