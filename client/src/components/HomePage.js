@@ -22,6 +22,8 @@ import LastWorkout from "./LastWorkout";
 import Chart from "./Chart";
 import NewWorkout from "./NewWorkout";
 import Popup from "./Popup";
+import { FaCalendarAlt, FaChartLine } from "react-icons/fa";
+import { GiWeightLiftingUp } from "react-icons/gi";
 
 const theme = createTheme({
   palette: {
@@ -53,18 +55,26 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: {
     height: 20,
   },
+  listItem: {
+    display: "flex",
+    width: "200",
+    flexDirection: "row",
+    columnGap: theme.spacing(3),
+  },
 }));
 
 function HomePage({ workouts }) {
   const [open, setOpen] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const classes = useStyles();
+  const icons = [<FaCalendarAlt />, <GiWeightLiftingUp />, <FaChartLine />];
 
   const list = () => (
     <Box role="presentation">
       <List>
-        {["Kalenteri", "Harjoitukset", "Tilastot"].map((text) => (
-          <ListItem button key={text}>
+        {["Kalenteri", "Harjoitukset", "Tilastot"].map((text, index) => (
+          <ListItem button key={text} className={classes.listItem}>
+            {icons[index]}
             <ListItemText primary={text} />
           </ListItem>
         ))}
@@ -91,7 +101,7 @@ function HomePage({ workouts }) {
 
         <main>
           <div className={classes.appBarSpacer} />
-          <Drawer open={drawer} anchor="top">
+          <Drawer open={drawer} anchor="left">
             <ClickAwayListener onClickAway={() => setDrawer(false)}>
               {list()}
             </ClickAwayListener>
