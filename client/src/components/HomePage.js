@@ -24,6 +24,7 @@ import NewWorkout from "./NewWorkout";
 import Popup from "./Popup";
 import { FaCalendarAlt, FaChartLine } from "react-icons/fa";
 import { GiWeightLiftingUp } from "react-icons/gi";
+import { Link } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -72,11 +73,21 @@ function HomePage({ workouts }) {
   const list = () => (
     <Box role="presentation">
       <List>
-        {["Kalenteri", "Harjoitukset", "Tilastot"].map((text, index) => (
-          <ListItem button key={text} className={classes.listItem}>
-            {icons[index]}
-            <ListItemText primary={text} />
-          </ListItem>
+        {[
+          { text: "Kalenteri", link: "calender" },
+          { text: "Harjoitukset", link: "workouts" },
+          { text: "Tilastot", link: "stats" },
+        ].map((text, index) => (
+          <Link
+            to={text.link}
+            style={{ textDecoration: "none" }}
+            key={text.text}
+          >
+            <ListItem button className={classes.listItem}>
+              {icons[index]}
+              <ListItemText primary={text.text} />
+            </ListItem>
+          </Link>
         ))}
       </List>
     </Box>
