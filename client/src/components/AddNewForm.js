@@ -71,6 +71,7 @@ function AddNewForm(props) {
             id="lengthH"
             label="Treenin pituus h"
             type="text"
+            autoComplete="off"
             fullWidth
             onChange={(e) => handleHours(e)}
           />
@@ -86,6 +87,7 @@ function AddNewForm(props) {
             id="lengthMin"
             label="Treenin pituus min"
             type="text"
+            autoComplete="off"
             fullWidth
             onChange={(e) => handleMins(e)}
           />
@@ -100,6 +102,7 @@ function AddNewForm(props) {
             id="comment"
             label="Kommentti"
             type="text"
+            autoComplete="off"
             fullWidth
             inputProps={{ maxLength: 150 }}
             onChange={(e) => handleCommentChange(e)}
