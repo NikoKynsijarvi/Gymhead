@@ -25,3 +25,19 @@ export const ADD_WORKOUT = gql`
     }
   }
 `;
+
+export const LOGIN = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+      value
+    }
+  }
+`;
+
+export const ADD_USER = gql`
+  mutation createUser($username: String, $password: String) {
+    createUser(username: $username, password: $password) {
+      username
+    }
+  }
+`;

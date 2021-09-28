@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Grid,
@@ -9,9 +10,30 @@ import {
   Button,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import React from "react";
+import { useMutation } from "@apollo/client";
+import CreateUser from "./CreateUser";
 
-function Login() {
+import { LOGIN } from "./graphql/mutations";
+
+function Login({ setToken }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [createUser, setCreateUser] = useState(false);
+  const [login, result] = useMutation(LOGIN);
+
+  useEffect(() => {
+    if (result.data) {
+      const token = result.data.login.value;
+      setToken(token);
+      localStorage.setItem("gymhead-user-token", token);
+    }
+  }, [result.data]); // eslint-disable-line
+
+  const submit = async (event) => {
+    event.preventDefault();
+
+    login({ variables: { username, password } });
+  };
   return (
     <>
       <AppBar position="relative">
@@ -20,6 +42,7 @@ function Login() {
       <div>
         <Grid container component="main" sx={{ height: "100vh" }}>
           <Grid item lg={6} xs={12} md={6}>
+            <CreateUser open={createUser} setOpen={setCreateUser} />
             <Box
               sx={{
                 my: 8,
@@ -40,6 +63,7 @@ function Login() {
                 autoComplete="off"
                 noValidate
                 sx={{ mt: 1 }}
+                onSubmit={submit}
               >
                 <TextField
                   margin="normal"
@@ -49,6 +73,8 @@ function Login() {
                   label="Käyttäjätunnus"
                   name="username"
                   autoFocus
+                  value={username}
+                  onChange={({ target }) => setUsername(target.value)}
                 />
                 <TextField
                   margin="normal"
@@ -59,6 +85,8 @@ function Login() {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  value={password}
+                  onChange={({ target }) => setPassword(target.value)}
                 />
                 <Button
                   type="submit"
@@ -69,6 +97,9 @@ function Login() {
                   Kirjaudu
                 </Button>
               </Box>
+              <Button variant="text" onClick={() => setCreateUser(true)}>
+                Luo käyttäjä
+              </Button>
             </Box>
           </Grid>
           <Grid item lg={6} xs={12} md={6}>

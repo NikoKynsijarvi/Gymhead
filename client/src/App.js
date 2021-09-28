@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import HomePage from "./components/HomePage";
 import Login from "./components/Login";
@@ -24,6 +24,7 @@ const theme = createTheme({
 });
 
 function App() {
+  const [token, setToken] = useState(null);
   const result = useQuery(ALL_WORKOUTS);
 
   if (result.loading) {
@@ -36,12 +37,15 @@ function App() {
         <CssBaseline />
         <ThemeProvider theme={theme}>
           <Switch>
-            <Route path="/home">
-              <HomePage workouts={result.data.allWorkouts} />
-            </Route>
-            <Route path="/">
-              <Login />
-            </Route>
+            {!token ? (
+              <Login setToken={setToken} />
+            ) : (
+              <>
+                <Route path="/home">
+                  <HomePage workouts={result.data.allWorkouts} />
+                </Route>
+              </>
+            )}
           </Switch>
         </ThemeProvider>
       </>
