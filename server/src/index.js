@@ -99,7 +99,11 @@ const resolvers = {
       const username = args.username;
       const password = await bcrypt.hash(args.password, saltRounds);
       const user = new User({ username, password });
-      return user.save();
+      return user.save().catch((error) => {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        });
+      });
     },
     login: async (root, args) => {
       const user = await User.findOne({ username: args.username });

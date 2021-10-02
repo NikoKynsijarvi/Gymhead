@@ -8,18 +8,26 @@ import {
   Avatar,
   TextField,
   Button,
+  makeStyles,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useMutation } from "@apollo/client";
 import CreateUser from "./CreateUser";
 
 import { LOGIN } from "./graphql/mutations";
+const useStyles = makeStyles((theme) => ({
+  bg: {
+    display: "flex",
+    justifyContent: "center",
+  },
+}));
 
 function Login({ setToken }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [createUser, setCreateUser] = useState(false);
   const [login, result] = useMutation(LOGIN);
+  const classes = useStyles();
 
   useEffect(() => {
     if (result.data) {
@@ -29,10 +37,13 @@ function Login({ setToken }) {
     }
   }, [result.data]); // eslint-disable-line
 
-  const submit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-
-    login({ variables: { username, password } });
+    try {
+      login({ variables: { username, password } });
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <>
@@ -40,8 +51,13 @@ function Login({ setToken }) {
         <Toolbar color="primary"></Toolbar>
       </AppBar>
       <div>
-        <Grid container component="main" sx={{ height: "100vh" }}>
-          <Grid item lg={6} xs={12} md={6}>
+        <Grid
+          container
+          component="main"
+          sx={{ height: "100vh" }}
+          className={classes.bg}
+        >
+          <Grid item lg={12} xs={12} md={12}>
             <CreateUser open={createUser} setOpen={setCreateUser} />
             <Box
               sx={{
@@ -63,7 +79,7 @@ function Login({ setToken }) {
                 autoComplete="off"
                 noValidate
                 sx={{ mt: 1 }}
-                onSubmit={submit}
+                onSubmit={(event) => handleSubmit(event)}
               >
                 <TextField
                   margin="normal"
@@ -100,22 +116,6 @@ function Login({ setToken }) {
               <Button variant="text" onClick={() => setCreateUser(true)}>
                 Luo käyttäjä
               </Button>
-            </Box>
-          </Grid>
-          <Grid item lg={6} xs={12} md={6}>
-            <Box
-              sx={{
-                width: "100%",
-                height: 300,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                bgcolor: "secondary.main",
-              }}
-            >
-              <Typography variant="h2" style={{ color: "#ffff" }}>
-                Hello World
-              </Typography>
             </Box>
           </Grid>
         </Grid>
