@@ -13,6 +13,7 @@ import {
   ListItemText,
   Box,
   ClickAwayListener,
+  Button,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import LastWorkout from "./LastWorkout";
@@ -44,11 +45,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HomePage({ workouts }) {
+function HomePage({ workouts, setToken }) {
   const [open, setOpen] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const classes = useStyles();
   const icons = [<FaCalendarAlt />, <GiWeightLiftingUp />, <FaChartLine />];
+
+  const handleLogout = () => {
+    window.localStorage.removeItem("gymhead-user-token");
+    setToken(null);
+  };
 
   const list = () => (
     <Box role="presentation">
@@ -85,6 +91,9 @@ function HomePage({ workouts }) {
           >
             <MenuIcon />
           </IconButton>
+          <Button color="inherit" onClick={handleLogout}>
+            Kirjaudu ulos
+          </Button>
         </Toolbar>
       </AppBar>
 

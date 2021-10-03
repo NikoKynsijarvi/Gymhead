@@ -33,6 +33,7 @@ function Login({ setToken }) {
     if (result.data) {
       const token = result.data.login.value;
       setToken(token);
+      console.log(result.data);
       localStorage.setItem("gymhead-user-token", token);
     }
   }, [result.data]); // eslint-disable-line
@@ -41,6 +42,11 @@ function Login({ setToken }) {
     event.preventDefault();
     try {
       login({ variables: { username, password } });
+
+      window.localStorage.setItem(
+        "loggedGymheadUser",
+        JSON.stringify({ username: username, password: password })
+      );
     } catch (err) {
       console.log(err);
     }
@@ -79,7 +85,6 @@ function Login({ setToken }) {
                 autoComplete="off"
                 noValidate
                 sx={{ mt: 1 }}
-                onSubmit={(event) => handleSubmit(event)}
               >
                 <TextField
                   margin="normal"
@@ -105,10 +110,10 @@ function Login({ setToken }) {
                   onChange={({ target }) => setPassword(target.value)}
                 />
                 <Button
-                  type="submit"
                   fullWidth
                   variant="contained"
                   color="primary"
+                  onClick={(event) => handleSubmit(event)}
                 >
                   Kirjaudu
                 </Button>

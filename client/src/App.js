@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import HomePage from "./components/HomePage";
 import Login from "./components/Login";
 import { ALL_WORKOUTS } from "./components/graphql/queries";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { createTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 
 const theme = createTheme({
@@ -27,6 +32,12 @@ const theme = createTheme({
 function App() {
   const [token, setToken] = useState(null);
   const result = useQuery(ALL_WORKOUTS);
+  useEffect(() => {
+    const loggedUserToken = window.localStorage.getItem("gymhead-user-token");
+    if (loggedUserToken) {
+      setToken(loggedUserToken);
+    }
+  }, []);
 
   if (result.loading) {
     return <div>loading...</div>;
@@ -43,7 +54,13 @@ function App() {
             ) : (
               <>
                 <Route path="/home">
-                  <HomePage workouts={result.data.allWorkouts} />
+                  <HomePage
+                    workouts={result.data.allWorkouts}
+                    setToken={setToken}
+                  />
+                </Route>
+                <Route exact path="/">
+                  <Redirect to="/home" />
                 </Route>
               </>
             )}
