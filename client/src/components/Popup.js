@@ -54,13 +54,13 @@ function Popup(props) {
   const [createWorkot] = useMutation(ADD_WORKOUT, {
     refetchQueries: [{ query: ALL_WORKOUTS }],
   });
-  const { open, setOpen } = props;
+  const { open, setOpen, user } = props;
   const handleSave = () => {
     setOpen(false);
     const length = parseFloat(`${hours}.${(mins / 60) * 100}`);
     const date = toRightDate(dateFirst);
 
-    createWorkot({ variables: { length, date, comment, excercises } });
+    createWorkot({ variables: { user, length, date, comment, excercises } });
 
     setMins(0);
     setHours(0);

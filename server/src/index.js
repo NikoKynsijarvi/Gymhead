@@ -31,6 +31,7 @@ const typeDefs = gql`
   }
 
   type Workout {
+    user: String
     length: Float!
     comment: String
     date: String
@@ -48,6 +49,7 @@ const typeDefs = gql`
   type User {
     username: String
     password: String
+    workouts: [Workout]
   }
 
   type Token {
@@ -62,6 +64,7 @@ const typeDefs = gql`
 
   type Mutation {
     addWorkout(
+      user: String
       length: Float
       comment: String
       date: String
@@ -76,14 +79,7 @@ const resolvers = {
   Query: {
     workoutCount: () => Workout.collection.countDocuments(),
     allWorkouts: (root, args) => {
-      if (args.exercise) {
-        const filteredWorkouts = workouts.filter((w) =>
-          w.excercises.map((e) => e.name).includes(args.exercise)
-        );
-        return Workout.find({});
-      }
-
-      return Workout.find({});
+      return Workout.find({ user: args.user });
     },
     me: (root, args, context) => {
       return context.currentUser;
@@ -119,7 +115,9 @@ const resolvers = {
         id: user._id,
       };
 
-      return { value: jwt.sign(userForToken, JWT_SECRET) };
+      return {
+        value: jwt.sign(userForToken, JWT_SECRET),
+      };
     },
   },
 };

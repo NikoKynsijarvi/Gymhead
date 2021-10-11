@@ -31,11 +31,16 @@ const theme = createTheme({
 
 function App() {
   const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null);
   const result = useQuery(ALL_WORKOUTS);
   useEffect(() => {
     const loggedUserToken = window.localStorage.getItem("gymhead-user-token");
+    const loggedUser = window.localStorage.getItem("gymhead-user");
     if (loggedUserToken) {
       setToken(loggedUserToken);
+    }
+    if (loggedUser) {
+      setUser(loggedUser);
     }
   }, []);
 
@@ -50,13 +55,15 @@ function App() {
         <ThemeProvider theme={theme}>
           <Switch>
             {!token ? (
-              <Login setToken={setToken} />
+              <Login setToken={setToken} setUser={setUser} />
             ) : (
               <>
                 <Route path="/home">
                   <HomePage
                     workouts={result.data.allWorkouts}
                     setToken={setToken}
+                    setUser={setUser}
+                    user={user}
                   />
                 </Route>
                 <Route exact path="/">

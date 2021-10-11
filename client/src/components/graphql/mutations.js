@@ -2,12 +2,14 @@ import { gql } from "@apollo/client";
 
 export const ADD_WORKOUT = gql`
   mutation createWorkout(
+    $user: String
     $length: Float
     $date: String
     $comment: String
     $excercises: [ExerciseInput]
   ) {
     addWorkout(
+      user: $user
       length: $length
       date: $date
       comment: $comment

@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({ setToken }) {
+function Login({ setToken, setUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [createUser, setCreateUser] = useState(false);
@@ -33,8 +33,9 @@ function Login({ setToken }) {
     if (result.data) {
       const token = result.data.login.value;
       setToken(token);
-      console.log(result.data);
+      setUser(username);
       localStorage.setItem("gymhead-user-token", token);
+      localStorage.setItem("gymhead-user", username);
     }
   }, [result.data]); // eslint-disable-line
 

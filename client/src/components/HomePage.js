@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HomePage({ workouts, setToken }) {
+function HomePage({ workouts, setToken, setUser, user }) {
   const [open, setOpen] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const classes = useStyles();
@@ -54,6 +54,7 @@ function HomePage({ workouts, setToken }) {
   const handleLogout = () => {
     window.localStorage.removeItem("gymhead-user-token");
     setToken(null);
+    setUser(null);
   };
 
   const list = () => (
@@ -105,7 +106,7 @@ function HomePage({ workouts, setToken }) {
           </ClickAwayListener>
         </Drawer>
         <Container maxWidth="lg">
-          <Popup open={open} setOpen={setOpen} />
+          <Popup open={open} setOpen={setOpen} user={user} />
           <Grid container spacing={3}>
             <Grid item xs={12} md={4} lg={4}>
               <Paper className={classes.paper}>
