@@ -26,9 +26,14 @@ function Login({ setToken, setUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [createUser, setCreateUser] = useState(false);
-  const [login, result] = useMutation(LOGIN);
+  const [error, setError] = useState("");
+  const [login, result] = useMutation(LOGIN, {
+    onError: (error) => {
+      setError("Väärä käyttäjätunnus tai salasana");
+    },
+  });
   const classes = useStyles();
-
+  console.log(error);
   useEffect(() => {
     if (result.data) {
       const token = result.data.login.value;
