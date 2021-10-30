@@ -17,8 +17,8 @@ export const ALL_WORKOUTS = gql`
 `;
 
 export const USERS_WORKOUTS = gql`
-query getUsersWorkouts(username: String){
-  findWorkouts(user: $username){
+  query getUsersWorkouts($username: String) {
+    usersWorkouts(user: $username) {
       length
       comment
       date
@@ -28,6 +28,6 @@ query getUsersWorkouts(username: String){
         sets
         weight
       }
+    }
   }
-}
 `;

@@ -59,6 +59,7 @@ const typeDefs = gql`
   type Query {
     workoutCount: Int!
     allWorkouts(exercise: String): [Workout!]!
+    usersWorkouts(user: String): [Workout!]!
     me: User
   }
 
@@ -79,7 +80,11 @@ const resolvers = {
   Query: {
     workoutCount: () => Workout.collection.countDocuments(),
     allWorkouts: (root, args) => {
-      return Workout.find({ user: args.user });
+      return Workout.find({});
+    },
+    usersWorkouts: (root, args) => {
+      const username = args.user;
+      return Workout.find({ user: username });
     },
     me: (root, args, context) => {
       return context.currentUser;

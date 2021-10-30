@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useQuery } from "@apollo/client";
+import { USERS_WORKOUTS } from "./graphql/queries";
 import {
   AppBar,
   Toolbar,
@@ -48,6 +50,11 @@ const useStyles = makeStyles((theme) => ({
 function HomePage({ workouts, setToken, setUser, user }) {
   const [open, setOpen] = useState(false);
   const [drawer, setDrawer] = useState(false);
+  const username = user;
+  const result = useQuery(USERS_WORKOUTS, {
+    variables: { username },
+  });
+  console.log(result);
   const classes = useStyles();
   const icons = [<FaCalendarAlt />, <GiWeightLiftingUp />, <FaChartLine />];
 
