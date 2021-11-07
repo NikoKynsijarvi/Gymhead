@@ -11,7 +11,7 @@ import {
 import AddNewForm from "./AddNewForm";
 import { useMutation } from "@apollo/client";
 import { ADD_WORKOUT } from "./graphql/mutations";
-import { ALL_WORKOUTS } from "./graphql/queries";
+import { USERS_WORKOUTS } from "./graphql/queries";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -44,6 +44,8 @@ function toRightDate(date) {
 }
 
 function Popup(props) {
+  const { open, setOpen, user } = props;
+  const username = user;
   const d = new Date();
   const [mins, setMins] = useState(0);
   const [hours, setHours] = useState(0);
@@ -52,9 +54,9 @@ function Popup(props) {
   const [excercises, setExercises] = useState([]);
   const classes = useStyles();
   const [createWorkot] = useMutation(ADD_WORKOUT, {
-    refetchQueries: [{ query: ALL_WORKOUTS }],
+    refetchQueries: [{ query: USERS_WORKOUTS, variables: { username } }],
   });
-  const { open, setOpen, user } = props;
+
   const handleSave = () => {
     setOpen(false);
     const length = parseFloat(`${hours}.${(mins / 60) * 100}`);

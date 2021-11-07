@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { USERS_WORKOUTS } from "./graphql/queries";
 import {
@@ -47,16 +47,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HomePage({ workouts, setToken, setUser, user }) {
+function HomePage({ workouts, setToken, setUser, user, setResult }) {
   const [open, setOpen] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const username = user;
   const result = useQuery(USERS_WORKOUTS, {
     variables: { username },
   });
-  console.log(result);
   const classes = useStyles();
   const icons = [<FaCalendarAlt />, <GiWeightLiftingUp />, <FaChartLine />];
+
+  useEffect(() => {
+    if (result.data) {
+      setResult(result.data.usersWorkouts);
+    }
+  }, [result, setResult]);
 
   const handleLogout = () => {
     window.localStorage.removeItem("gymhead-user-token");

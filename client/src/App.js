@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useQuery } from "@apollo/client";
 import HomePage from "./components/HomePage";
 import Login from "./components/Login";
-import { ALL_WORKOUTS } from "./components/graphql/queries";
 import {
   BrowserRouter as Router,
   Switch,
@@ -32,7 +30,8 @@ const theme = createTheme({
 function App() {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
-  const result = useQuery(ALL_WORKOUTS);
+  const [result, setResult] = useState([]);
+
   useEffect(() => {
     const loggedUserToken = window.localStorage.getItem("gymhead-user-token");
     const loggedUser = window.localStorage.getItem("gymhead-user");
@@ -60,7 +59,8 @@ function App() {
               <>
                 <Route path="/home">
                   <HomePage
-                    workouts={result.data.allWorkouts}
+                    workouts={result}
+                    setResult={setResult}
                     setToken={setToken}
                     setUser={setUser}
                     user={user}
