@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import HomePage from "./components/HomePage";
 import Login from "./components/Login";
+import Workouts from "./components/Workouts";
 import {
   BrowserRouter as Router,
   Switch,
@@ -32,6 +33,12 @@ function App() {
   const [user, setUser] = useState(null);
   const [result, setResult] = useState([]);
 
+  const handleLogout = () => {
+    window.localStorage.removeItem("gymhead-user-token");
+    setToken(null);
+    setUser(null);
+  };
+
   useEffect(() => {
     const loggedUserToken = window.localStorage.getItem("gymhead-user-token");
     const loggedUser = window.localStorage.getItem("gymhead-user");
@@ -59,12 +66,14 @@ function App() {
               <>
                 <Route path="/home">
                   <HomePage
+                    handleLogout={handleLogout}
                     workouts={result}
                     setResult={setResult}
-                    setToken={setToken}
-                    setUser={setUser}
                     user={user}
                   />
+                </Route>
+                <Route path="/workouts">
+                  <Workouts handleLogout={handleLogout} workouts={result} />
                 </Route>
                 <Route exact path="/">
                   <Redirect to="/home" />

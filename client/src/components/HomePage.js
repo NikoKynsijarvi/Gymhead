@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HomePage({ workouts, setToken, setUser, user, setResult }) {
+function HomePage({ workouts, user, setResult, handleLogout }) {
   const [open, setOpen] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const username = user;
@@ -62,12 +62,6 @@ function HomePage({ workouts, setToken, setUser, user, setResult }) {
       setResult(result.data.usersWorkouts);
     }
   }, [result, setResult]);
-
-  const handleLogout = () => {
-    window.localStorage.removeItem("gymhead-user-token");
-    setToken(null);
-    setUser(null);
-  };
 
   const list = () => (
     <Box role="presentation">
